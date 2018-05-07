@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Note Book</title>
+    <link rel="stylesheet" href="libs/css/bootstrap.css">
+</head>
+<body>
+
+    <div id="app" class='container'><br><br>
+        <div class="row">
+            <div class="col text-center"><h3 class='text-secondary'>{{ project_name }}</h3></div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 offset-md-3 col-md-6 offset-lg-3 col-ld-6">
+                <div class='form'>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input placeholder="Title" class='form-control' type="text" v-model='note.title'>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea placeholder="Descriptiion" class='form-control' v-model='note.description'></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button v-show="note.description && note.title " v-on:click="_addnote" class='btn border-primary text-primary btn-light'>Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div v-for="(note, index) in notes_arr" class="col-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="text-secondary  border-primary card">
+                    <h4 class='card-header'>{{ note.title }}<button class="close" v-on:click="_removenote(index)">&times;</button></h4>
+                    <div class="card-body">
+                        <small>{{ note.date }}</small>
+                        <h5 class='card-text'>{{ note.description }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="libs/js/vue.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            project_name: 'Note Book',
+            note: {
+                title: "",
+                description: "",
+            },
+            notes_arr: [
+                {
+                    title: "Bief",
+                    description: "This is Bief chap",
+                    date: new Date(Date.now()).toLocaleString() // javascript function
+                }
+            ]
+        },
+        methods: {
+            _addnote() {
+                let {title, description} = this.note
+                this.notes_arr.push({
+                    title,
+                    description,
+                    date: new Date(Date.now()).toLocaleString()
+                })
+            },
+            _removenote(index) {
+                this.notes_arr.splice(index, 1)
+            }
+        }
+    })
+    </script>
+</body>
+</html>
